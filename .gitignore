@@ -12,3 +12,6 @@ config.log
 tests/.tests
 ups/*.cfgc
 python/lsst/obs/file/version.py
+bin/displaySources.py
+bin/ingestFiles.py
+bin/processFile.py

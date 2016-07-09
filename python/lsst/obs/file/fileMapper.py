@@ -6,9 +6,11 @@ from lsst.obs.base import CameraMapper
 import lsst.afw.cameraGeom as afwCg
 import lsst.afw.image.utils as afwImageUtils
 import lsst.pex.policy as pexPolicy
+from filecam import FileCam
 
 class FileMapper(CameraMapper):
     """Provides abstract-physical mapping for data found in the filesystem"""
+    packageName = 'obs_file'
     
     def __init__(self, **kwargs):
         policyFile = pexPolicy.DefaultPolicyFile("obs_file", "FileMapper.paf", "policy")
@@ -22,49 +24,25 @@ class FileMapper(CameraMapper):
         super(FileMapper, self).__init__(policy, policyFile.getRepositoryPath(), **kwargs)
         
         # Ensure each dataset type of interest knows about the full range of keys available from the registry
-        keys = dict(calexp=str,
+        keys = dict(fileroot=str,
                 )
         for name in ("calexp", "src"):
             self.mappings[name].keyDict = keys
 
-        # SDSS g': http://www.naoj.org/Observing/Instruments/SCam/txt/g.txt
-        # SDSS r': http://www.naoj.org/Observing/Instruments/SCam/txt/r.txt
-        # SDSS i': http://www.naoj.org/Observing/Instruments/SCam/txt/i.txt
-        # SDSS z': http://www.naoj.org/Observing/Instruments/SCam/txt/z.txt
-        # y-band: Shimasaku et al., 2005, PASJ, 57, 447
-
         afwImageUtils.resetFilters()
 
-        afwImageUtils.defineFilter(name='g', lambdaEff=477, alias=['W-S-G+'])
-        afwImageUtils.defineFilter(name='r', lambdaEff=623, alias=['W-S-R+'])
-        afwImageUtils.defineFilter(name='i', lambdaEff=775, alias=['W-S-I+'])
-        afwImageUtils.defineFilter(name='z', lambdaEff=925, alias=['W-S-Z+'])
-        afwImageUtils.defineFilter(name='y', lambdaEff=990, alias=['W-S-ZR'])
+        afwImageUtils.defineFilter(name='tmp', lambdaEff=0.)
         
         self.filters = {
-            "W-S-G+"  : "g",
-            "W-S-R+"  : "r",
-            "W-S-I+"  : "i",
-            "W-S-Z+"  : "z",
-            "W-S-ZR"  : "y",
+            "tmp"  : "tmp",
             }
 
         # next line makes a dict that maps filter names to sequential integers (arbitrarily sorted),
         # for use in generating unique IDs for sources.
         self.filterIdMap = dict(zip(self.filters, range(len(self.filters))))
 
-    def _standardizeExposure(self, mapping, item, dataId, filter=True, trimmed=True):
-        item = super(FileMapper, self)._standardizeExposure(mapping, item, dataId,
-                                                            filter=filter, trimmed=trimmed)
-        detector = afwCg.Ccd(afwCg.Id("Dummy"))
-        item.setDetector(detector)
-        return item
-
-    def _setCcdDetector(self, *args):
-        pass
-
-    def _setFilter(self, *args):
-        pass
+    def _extractDetectorName(self, dataId):
+        return '0'
 
     def _computeCcdExposureId(self, dataId):
         """Compute the 64-bit (long) identifier for a CCD exposure.
@@ -85,14 +63,10 @@ class FileMapper(CameraMapper):
         """How many bits are required for the maximum exposure ID"""
         return 32 # just a guess, but this leaves plenty of space for sources
 
-    @classmethod
-    def getEupsProductName(cls):
-        return "obs_file"
-
-    @classmethod
-    def getCameraName(cls):
-        return "file"
-
     def queryMetadata(self, datasetType, key, format, dataId):
         return tuple()
-    
+
+    def _makeCamera(self, policy, repositoryDir):
+        """Make a camera (instance of lsst.afw.cameraGeom.Camera) describing the camera geometry
+        """
+        return FileCam()

@@ -121,15 +121,15 @@ datasets: {
         storage:      "ignored"
         tables:       "raw"
     }
-    processFile_config: {
-        template:      "config/processFile.py"
-        python:        "lsst.obs.file.processFile.ProcessFileConfig"
+    processCcd_config: {
+        template:      "config/processCcd.py"
+        python:        "lsst.pipe.tasks.processCcd.ProcessCcdConfig"
         persistable:   "Config"
         storage:       "ConfigStorage"
         tables:        raw
     }
-    processFile_metadata: {
-        template:      "metadata/%(fileroot)s/processFile_metadata.boost"
+    processCcd_metadata: {
+        template:      "metadata/%(fileroot)s/processCcd_metadata.boost"
         python:        "lsst.daf.base.PropertySet"
         persistable:   "PropertySet"
         storage:       "BoostStorage"

@@ -45,6 +45,9 @@ class FileParseTask(ParseTask):
         head, tail = os.path.split(filename)
         return tail.split('.')[0]
 
+    def translate_extension(self, md):
+        return
+
     def translate_filter(self, md):
         return 'tmp'
 

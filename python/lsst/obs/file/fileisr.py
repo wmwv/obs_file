@@ -42,6 +42,12 @@ class FileIsrConfig(pexConfig.Config):
     low = pexConfig.Field(dtype=float, default=0.0, doc="Low limit")
     isBackgroundSubtracted = pexConfig.Field(dtype=bool, default=False,
                                              doc="Input image is already background subtracted")
+    datasetType = pexConfig.Field(
+        dtype = str,
+        doc = "Dataset type for input data; users will typically leave this alone, "
+              "but camera-specific ISR tasks will override it",
+        default = "raw",
+    )
 
 
 class FileIsrTask(pipeBase.Task):

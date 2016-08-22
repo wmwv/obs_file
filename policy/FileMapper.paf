@@ -135,4 +135,60 @@ datasets: {
         storage:       "BoostStorage"
         tables:        raw
     }
+    deepDiff_config: {
+        template:      "config/deepDiff.py"
+        python:        "lsst.pipe.tasks.imageDifference.ImageDifferenceConfig"
+        persistable:   "Config"
+        storage:       "ConfigStorage"
+        tables:        raw
+        tables:        raw_skyTile
+    }
+    deepDiff_metadata: {
+        template:      "diff/%(fileroot)s/metadata.boost"
+        python:        "lsst.daf.base.PropertySet"
+        persistable:   "PropertySet"
+        storage:       "BoostStorage"
+        tables:        raw
+        tables:        raw_skyTile
+    }
+    deepDiff_differenceExp: {
+        template:      "diff/%(fileroot)s/diffexp.fits"
+        python:        "lsst.afw.image.ExposureF"
+        persistable:   "ExposureF"
+        storage:       "FitsStorage"
+        tables:        raw
+        tables:        raw_skyTile
+    }
+    deepDiff_matchedExp: {
+        template:      "diff/%(fileroot)s/matchexp.fits"
+        python:        "lsst.afw.image.ExposureF"
+        persistable:   "ExposureF"
+        storage:       "FitsStorage"
+        tables:        raw
+        tables:        raw_skyTile
+    }
+    deepDiff_diaSrc: {
+        template:      "diff/%(fileroot)s/diaSrc.fits"
+        python:        "lsst.afw.table.SourceCatalog"
+        persistable:   "SourceCatalog"
+        storage:       "FitsCatalogStorage"
+        tables:        raw
+        tables:        raw_skyTile
+    }
+    deepDiff_diaSrc_schema: {
+        template:      "schema/deepDiff_diaSrc.fits"
+        python:        "lsst.afw.table.SourceCatalog"
+        persistable:   "SourceCatalog"
+        storage:       "FitsCatalogStorage"
+        tables:        raw
+        tables:        raw_skyTile
+    }
+    deepDiff_kernelSrc: {
+        template:      "diff/%(fileroot)s/kernelSrc.fits"
+        python:        "lsst.afw.table.SourceCatalog"
+        persistable:   "SourceCatalog"
+        storage:       "FitsCatalogStorage"
+        tables:        raw
+        tables:        raw_skyTile
+    }
 }

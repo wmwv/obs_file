@@ -184,4 +184,32 @@ datasets: {
         storage:       "FitsCatalogStorage"
         tables:        raw
     }
+    forced_src: {
+        template:      "forced/%(fileroot)s/forced_src.fits"
+        python:        "lsst.afw.table.SourceCatalog"
+        persistable:   "ignored"
+        storage:       "FitsCatalogStorage"
+        tables:        raw
+        tables:        raw_visit
+    }
+    forced_src_schema: {
+        template:      "schema/forced_src.fits"
+        python:        "lsst.afw.table.SourceCatalog"
+        persistable:   "ignored"
+        storage:       "FitsCatalogStorage"
+    }
+    deepDiff_forced_src: {
+        template:      "diff_forced/%(fileroot)s/forced_src.fits"
+        python:        "lsst.afw.table.SourceCatalog"
+        persistable:   "ignored"
+        storage:       "FitsCatalogStorage"
+        tables:        raw
+        tables:        raw_visit
+    }
+    deepDiff_forced_src_schema: {
+        template:      "schema/deepDiff_forced_src.fits"
+        python:        "lsst.afw.table.SourceCatalog"
+        persistable:   "ignored"
+        storage:       "FitsCatalogStorage"
+    }
 }

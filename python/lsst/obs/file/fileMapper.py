@@ -32,9 +32,17 @@ class FileMapper(CameraMapper):
         afwImageUtils.resetFilters()
 
         afwImageUtils.defineFilter(name='tmp', lambdaEff=0.)
+        afwImageUtils.defineFilter(name='J', lambdaEff=1230)  # nm
+        afwImageUtils.defineFilter(name='H', lambdaEff=1650)
+        afwImageUtils.defineFilter(name='K', lambdaEff=2180)
+        afwImageUtils.defineFilter(name='KS', lambdaEff=2180)
         
         self.filters = {
-            "tmp"  : "tmp",
+            "tmp": "tmp",
+            "J": "J",
+            "H": "H",
+            "K": "K",
+            "KS": "KS",
             }
 
         # next line makes a dict that maps filter names to sequential integers (arbitrarily sorted),

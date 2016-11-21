@@ -93,6 +93,13 @@ datasets: {
         storage:       "FitsCatalogStorage"
         tables:        "raw"
     }
+    srcMatch: {
+        template:      "srcMatch/%(fileroot)s/icMatch.fits"
+        python:        "lsst.afw.table.BaseCatalog"
+        persistable:   "BaseCatalog"
+        storage:       "FitsCatalogStorage"
+        tables:        "raw"
+    }
     log: {
         template:      "logs/%(fileroot)s/run.log"
         python:        "str"
